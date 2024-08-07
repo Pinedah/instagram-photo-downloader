@@ -9,20 +9,26 @@ from selenium.webdriver.chrome.service import Service
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 # logging.disable(logging.CRITICAL)
 
+
+logging.info("Starting...")
 # Set up Chrome options
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")  # Run in headless mode (optional)
 
 # Path to your ChromeDriver executable
-chrome_driver_path = "C:\\Users\\Dell Latitude\\Documents\\chrome-win64\\chrome.exe"
+chrome_driver_path = "C:\\Users\\Dell Latitude\\Documents\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe"
 
+logging.info("Chrome path given...")
 # Set up the Chrome driver
-service = Service(chrome_driver_path)
-driver = webdriver.Chrome(service=service, options=chrome_options)
+services = Service(chrome_driver_path)
+driver = webdriver.Chrome(service=services, options=chrome_options)
+logging.info("driver object created...")
 
 # Open the Instagram profile page
 profile_url = "https://www.instagram.com/pinedah_11/"
 driver.get(profile_url)
+
+logging.info(driver)
 
 # Allow time for the page to load
 time.sleep(2)
