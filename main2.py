@@ -42,6 +42,8 @@ for _ in range(5):  # Adjust the range to load more/less images
 # Find image elements
 image_elements = driver.find_elements(By.CSS_SELECTOR, 'img')
 
+logging.info(image_elements)
+
 # Download images
 for index, image_element in enumerate(image_elements):
     image_url = image_element.get_attribute('src')
