@@ -11,9 +11,24 @@ instagram_profile = ''
 
 os.makedirs('photos', exist_ok=True)
 
-instagram_profile = input("\nEnter the Instagram Profile: ")
+user_profile = input("\nEnter the Instagram Profile @: ")
+instagram_profile = instagra_url + user_profile
+
+logging.info(instagram_profile)
+
+print(f"Downloading the page... {instagram_profile}")
+res = requests.get(instagram_profile)
+res.raise_for_status()
+
+logging.info(res.text)
+
+soup = bs4.BeautifulSoup(res.text, features = 'html.parser')
+img = soup.select('._aagv')
+
+logging.info(img)
 
 """
+
 for i in range(5):
     # Download the page
     print(f"Downloading the page... {url}")
@@ -24,7 +39,7 @@ for i in range(5):
     soup = bs4.BeautifulSoup(res.text, features='html.parser')
 
     # Find the URL of the comic image.
-    comicElem = soup.select('#comic img')
+    comicElem = soup.select('._aagv')
 
     logging.info(comicElem)
     logging.info(len(comicElem))
@@ -55,3 +70,5 @@ for i in range(5):
 
 print("\nDONE.")
 """
+
+logging.info("\nEND OF THE PROGAM! \n\n")
