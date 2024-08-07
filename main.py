@@ -1,7 +1,7 @@
 #! python3
 # main.py - simple script that downloads every single photo in an Instagram profile given
 
-import requests, os, bs4, logging
+import requests, os, bs4, logging, pprint
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 # logging.disable(logging.CRITICAL)
@@ -23,11 +23,30 @@ res.raise_for_status()
 logging.info(res.text)
 
 soup = bs4.BeautifulSoup(res.text, features = 'html.parser')
-img = soup.select('._aagv')
+img = soup.select('.x1lliihq')
 
-logging.info(img)
+logging.info(pprint.pformat(img))
+logging.info(len(img))
+print('\n\n')
+
 
 """
+
+imgUrl = instagra_url + comicElem[0].get('src')
+# Download the image
+print(f"\nDownloading the image... {comicUrl}")
+        
+res = requests.get(comicUrl)
+res.raise_for_status()
+
+# Save the image to ./xkcd
+imageFile = open(os.path.join('xkcd', os.path.basename(comicUrl)), 'wb') # opened in write binarymode
+    
+for chunk in res.iter_content(100000):
+    imageFile.write(chunk)
+imageFile.close()
+
+
 
 for i in range(5):
     # Download the page
