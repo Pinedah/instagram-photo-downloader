@@ -14,7 +14,7 @@ chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")  # Run in headless mode (optional)
 
 # Path to your ChromeDriver executable
-chrome_driver_path = "path/to/chromedriver"
+chrome_driver_path = "C:\\Users\\Dell Latitude\\Documents\\chrome-win64\\chrome.exe"
 
 # Set up the Chrome driver
 service = Service(chrome_driver_path)
@@ -25,7 +25,7 @@ profile_url = "https://www.instagram.com/pinedah_11/"
 driver.get(profile_url)
 
 # Allow time for the page to load
-time.sleep(5)
+time.sleep(2)
 
 # Scroll to load more images (optional)
 scroll_pause_time = 2
