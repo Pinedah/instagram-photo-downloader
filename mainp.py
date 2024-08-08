@@ -39,7 +39,7 @@ try:
 
 
     time.sleep(4)
-    notnow = browser.find_element(By.CLASS_NAME, ' _acan _acap _acas _aj1- _ap30')
+    notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
     time.sleep(5)
