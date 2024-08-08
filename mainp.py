@@ -4,6 +4,8 @@
 import logging, time, webbrowser
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+
+from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
@@ -17,6 +19,23 @@ browser.get('https://www.instagram.com/' + users[1])
 time.sleep(5)
 
 try:
+
+    loginButton = browser.find_element(By.LINK_TEXT, 'Log In')
+    loginButton.click()
+
+    time.sleep(5)
+
+    emailForm = browser.find_element(By.TAG_NAME, 'input')
+    emailForm.click()
+    emailForm.send_keys('papanacho11')
+    time.sleep(2)
+    emailForm.send_keys(Keys.TAB)
+    time.sleep(2)
+    emailForm.send_keys('Papanachito')
+    time.sleep(3)
+    emailForm.send_keys(Keys.ENTER)
+
+    time.sleep(10)
     div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
     img_elems = []
