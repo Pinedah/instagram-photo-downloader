@@ -25,17 +25,25 @@ try:
 
     time.sleep(5)
 
-    emailForm = browser.find_element(By.TAG_NAME, 'input')
-    emailForm.click()
-    emailForm.send_keys('papanacho11')
+    emailForm = browser.find_elements(By.TAG_NAME, 'input')
+    emailForm[0].click()
+    emailForm[0].send_keys('papanacho11')
     time.sleep(2)
-    emailForm.send_keys(Keys.TAB)
+    # emailForm.send_keys(Keys.TAB)
     time.sleep(2)
-    emailForm.send_keys('Papanachito')
+    emailForm[1].click()
+    emailForm[1].send_keys('Papanachito')
     time.sleep(3)
-    emailForm.send_keys(Keys.ENTER)
+    #emailForm.send_keys(Keys.ENTER)
+    emailForm[1].submit()
 
-    time.sleep(10)
+
+    time.sleep(4)
+    notnow = browser.find_element(By.CLASS_NAME, ' _acan _acap _acas _aj1- _ap30')
+    notnow.click()
+
+    time.sleep(5)
+
     div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
     img_elems = []
