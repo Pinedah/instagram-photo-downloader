@@ -22,7 +22,7 @@ try:
     img_elems = []
     srcs = []
     for i in range(len(div_elem)):
-        img_elems.append(div_elem[i].get_attribute('img'))
+        img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
     for j in range(len(img_elems)):
         srcs.append(img_elems[j].get_attribute('src'))
