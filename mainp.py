@@ -45,10 +45,10 @@ try:
     time.sleep(5)
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
-    for i in range(5):
-        htmlElem.send_keys(Keys.END)
-        time.sleep(3)
-    #htmlElem.send_keys(Keys.HOME)
+    #for i in range(5):
+     #   htmlElem.send_keys(Keys.END)
+      #  time.sleep(3)
+    # htmlElem.send_keys(Keys.HOME)
     
     
 
@@ -64,11 +64,14 @@ try:
     for j in range(len(img_elems)):
         srcs.append(img_elems[j].get_attribute('src'))
 
-    #for k in range(len(srcs)):
+    # for k in range(len(srcs)):
     #    webbrowser.open(srcs[k])
 
 
     # DOWNLOAD THE PHOTOS
+
+    logging.info(len(srcs))
+    logging.info(srcs)
 
     # Send a GET request to the image URL
     os.makedirs('photos-samuel', exist_ok=True)
