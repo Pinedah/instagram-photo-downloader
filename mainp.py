@@ -1,7 +1,7 @@
 #! python3
 # Finding elements on the page
 
-import logging, time, webbrowser, requests
+import logging, time, webbrowser, requests, os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -14,7 +14,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza']
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[1])
+browser.get('https://www.instagram.com/' + users[2])
 
 time.sleep(5)
 
@@ -37,12 +37,20 @@ try:
     #emailForm.send_keys(Keys.ENTER)
     emailForm[1].submit()
 
-
+    
     time.sleep(4)
     notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
     time.sleep(5)
+
+    htmlElem = browser.find_element(By.TAG_NAME, 'html')
+    for i in range(15):
+        htmlElem.send_keys(Keys.END)
+        time.sleep(4)
+    
+
+
 
     div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -59,19 +67,16 @@ try:
 
 
     # DOWNLOAD THE PHOTOS
-    htmlElem = browser.find_element(By.TAG_NAME, 'html')
-    htmlElem.send_keys(Keys.END)
-
-    time.sleep(10)
 
     # Send a GET request to the image URL
+    os.makedirs('photos-samuel', exist_ok=True)
     for i in range(len(srcs)):
 
         response = requests.get(srcs[i])
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            with open(f"photos\photo{i+1}.jpg", "wb") as file:
+            with open(f"photos-samuel\photo{i+1}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
