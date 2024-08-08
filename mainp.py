@@ -45,9 +45,11 @@ try:
     time.sleep(5)
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
-    for i in range(15):
+    for i in range(5):
         htmlElem.send_keys(Keys.END)
-        time.sleep(4)
+        time.sleep(3)
+    #htmlElem.send_keys(Keys.HOME)
+    
     
 
 
