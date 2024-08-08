@@ -54,23 +54,29 @@ try:
     for j in range(len(img_elems)):
         srcs.append(img_elems[j].get_attribute('src'))
 
-    for k in range(len(srcs)):
-        webbrowser.open(srcs[k])
+    #for k in range(len(srcs)):
+    #    webbrowser.open(srcs[k])
 
 
     # DOWNLOAD THE PHOTOS
+    htmlElem = browser.find_element(By.TAG_NAME, 'html')
+    htmlElem.send_keys(Keys.END)
+
+    time.sleep(10)
 
     # Send a GET request to the image URL
-    response = requests.get(srcs[0])
+    for i in range(len(srcs)):
 
-    # Ensure the request was successful
-    if response.status_code == 200:
-        # Save the image to a file
-        with open(f"photos\photo.jpg", "wb") as file:
-            file.write(response.content)
-        print("Image downloaded successfully!")
-    else:
-        print(f"Failed to download image. Status code: {response.status_code}")
+        response = requests.get(srcs[i])
+        # Ensure the request was successful
+        if response.status_code == 200:
+            # Save the image to a file
+            with open(f"photos\photo{i+1}.jpg", "wb") as file:
+                file.write(response.content)
+            print("Image downloaded successfully!")
+        else:
+            print(f"Failed to download image. Status code: {response.status_code}")
+
 
 except NoSuchElementException:
     print("Was not able to find an element with that class name.")
