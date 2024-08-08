@@ -1,7 +1,7 @@
 #! python3
 # Finding elements on the page
 
-import logging, time, webbrowser
+import logging, time, webbrowser, requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -57,13 +57,21 @@ try:
     for k in range(len(srcs)):
         webbrowser.open(srcs[k])
 
-    
-    """img_elem = div_elem.find_element(By.TAG_NAME, 'img')
-    print(f"\n\nFound <{img_elem}> element with that class name!\n")
-    print(f"\n\nFound <{img_elem.get_attribute('alt')}> element with that class name!\n")
-    print(f"\n\nFound <{img_elem.get_attribute('src')}> element with that class name!\n")
-    link = img_elem.get_attribute('src')
-    webbrowser.open(link)"""
+
+    # DOWNLOAD THE PHOTOS
+
+    # Send a GET request to the image URL
+    response = requests.get(srcs[0])
+
+    # Ensure the request was successful
+    if response.status_code == 200:
+        # Save the image to a file
+        with open(f"photos\photo.jpg", "wb") as file:
+            file.write(response.content)
+        print("Image downloaded successfully!")
+    else:
+        print(f"Failed to download image. Status code: {response.status_code}")
+
 except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
