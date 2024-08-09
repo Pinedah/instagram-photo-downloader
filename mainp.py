@@ -11,6 +11,21 @@ from selenium.common.exceptions import NoSuchElementException
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 #logging.disable(logging.CRITICAL)
 
+
+def download_photos(imagesLinks):
+    os.makedirs('photos-samuel', exist_ok=True)
+    for i in range(len(imagesLinks)):
+        response = requests.get(imagesLinks[i])
+        # Ensure the request was successful
+        if response.status_code == 200:
+            # Save the image to a file
+            with open(f"photos-samuel\photo{i+1}.jpg", "wb") as file:
+                file.write(response.content)
+            print("Image downloaded successfully!")
+        else:
+            print(f"Failed to download image. Status code: {response.status_code}")
+
+
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza']
 
 browser = webdriver.Chrome()
@@ -47,20 +62,23 @@ try:
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
-    for _ in range(3):
+    for _ in range(4):
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
+
     # htmlElem.send_keys(Keys.HOME)
 
-    div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
+        div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
-    img_elems = []
-    srcs = []
-    for i in range(len(div_elem)):
-        img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
+        img_elems = []
+        srcs = []
+        for i in range(len(div_elem)):
+            img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
-    for j in range(len(img_elems)):
-        srcs.append(img_elems[j].get_attribute('src'))
+        for j in range(len(img_elems)):
+            srcs.append(img_elems[j].get_attribute('src'))
+
+        download_photos(srcs)
 
     # DOWNLOAD THE PHOTOS
 
@@ -68,7 +86,7 @@ try:
     logging.info(srcs)
 
     # Send a GET request to the image URL
-    os.makedirs('photos-samuel', exist_ok=True)
+    """os.makedirs('photos-samuel', exist_ok=True)
     for i in range(len(srcs)):
 
         response = requests.get(srcs[i])
@@ -79,7 +97,7 @@ try:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
-            print(f"Failed to download image. Status code: {response.status_code}")
+            print(f"Failed to download image. Status code: {response.status_code}")"""
 
 
 except NoSuchElementException:
