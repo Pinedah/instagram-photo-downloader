@@ -1,5 +1,5 @@
 #! python3
-# Finding elements on the page
+# scrapping photos an instagram profile
 
 import logging, time, webbrowser, requests, os
 from selenium import webdriver
@@ -19,17 +19,18 @@ def download_photos(imagesLinks, imageNames, pn):
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            with open(f"photos-samuel\photo-{imageNames[i]}.jpg", "wb") as file:
+            os.chdir("photos-samuel")
+            with open(f"{str(imageNames[i]).replace("\\", "")}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
 
-users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza']
+users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[2])
+browser.get('https://www.instagram.com/' + users[3])
 
 time.sleep(5)
 
@@ -66,7 +67,7 @@ try:
 
     photoNum = 0
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(3): 
+    for _ in range(5): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
