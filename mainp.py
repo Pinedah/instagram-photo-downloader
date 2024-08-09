@@ -38,32 +38,35 @@ try:
     loginButton = browser.find_element(By.LINK_TEXT, 'Log In')
     loginButton.click()
 
-    time.sleep(2)
+    time.sleep(4)
 
     emailForm = browser.find_elements(By.TAG_NAME, 'input')
     emailForm[0].click()
     emailForm[0].send_keys('papanacho11')
-    time.sleep(1)
+    time.sleep(2)
     # emailForm.send_keys(Keys.TAB)
-    time.sleep(1)
+    time.sleep(2)
     emailForm[1].click()
     emailForm[1].send_keys('Papanachito')
-    time.sleep(1)
+    time.sleep(2)
     emailForm[1].submit()
 
     #emailForm.send_keys(Keys.ENTER)
 
     
-    time.sleep(3)
+    time.sleep(4)
     notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
-    time.sleep(3)
+    time.sleep(2)
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
+    numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+
     photoNum = 0
-    for _ in range(10):
+    # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
+    for _ in range(3): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -105,6 +108,7 @@ except NoSuchElementException:
 
 # Wait for user input before closing the browser
 input("Press Enter to close the browser...")
+logging.info(numberOfPosts.text)
 
 # Close the browser
 browser.quit()
