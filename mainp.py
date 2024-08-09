@@ -47,7 +47,7 @@ try:
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
-    for i in range(2):
+    for _ in range(2):
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
     # htmlElem.send_keys(Keys.HOME)
@@ -61,7 +61,7 @@ try:
 
     for j in range(len(img_elems)):
         srcs.append(img_elems[j].get_attribute('src'))
-        
+
     # DOWNLOAD THE PHOTOS
 
     logging.info(len(srcs))
