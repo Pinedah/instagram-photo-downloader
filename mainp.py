@@ -23,36 +23,34 @@ try:
     loginButton = browser.find_element(By.LINK_TEXT, 'Log In')
     loginButton.click()
 
-    time.sleep(5)
+    time.sleep(2)
 
     emailForm = browser.find_elements(By.TAG_NAME, 'input')
     emailForm[0].click()
     emailForm[0].send_keys('papanacho11')
-    time.sleep(2)
+    time.sleep(1)
     # emailForm.send_keys(Keys.TAB)
-    time.sleep(2)
+    time.sleep(1)
     emailForm[1].click()
     emailForm[1].send_keys('Papanachito')
-    time.sleep(3)
-    #emailForm.send_keys(Keys.ENTER)
+    time.sleep(1)
     emailForm[1].submit()
 
+    #emailForm.send_keys(Keys.ENTER)
+
     
-    time.sleep(4)
+    time.sleep(3)
     notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
-    time.sleep(5)
+    time.sleep(3)
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
-    #for i in range(5):
-     #   htmlElem.send_keys(Keys.END)
-      #  time.sleep(3)
+
+    for i in range(2):
+        htmlElem.send_keys(Keys.END)
+        time.sleep(2)
     # htmlElem.send_keys(Keys.HOME)
-    
-    
-
-
 
     div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -63,11 +61,7 @@ try:
 
     for j in range(len(img_elems)):
         srcs.append(img_elems[j].get_attribute('src'))
-
-    # for k in range(len(srcs)):
-    #    webbrowser.open(srcs[k])
-
-
+        
     # DOWNLOAD THE PHOTOS
 
     logging.info(len(srcs))
