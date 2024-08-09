@@ -12,14 +12,14 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 #logging.disable(logging.CRITICAL)
 
 
-def download_photos(imagesLinks, pn):
+def download_photos(imagesLinks, imageNames, pn):
     os.makedirs('photos-samuel', exist_ok=True)
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            with open(f"photos-samuel\photo{pn + i}.jpg", "wb") as file:
+            with open(f"photos-samuel\photo-{imageNames[i]}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -72,13 +72,15 @@ try:
 
         img_elems = []
         srcs = []
+        alts = []
         for i in range(len(div_elem)):
             img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
         for j in range(len(img_elems)):
             srcs.append(img_elems[j].get_attribute('src'))
+            alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, photoNum)
+        download_photos(srcs, alts, photoNum)
         photoNum += 100
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
