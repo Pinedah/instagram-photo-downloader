@@ -27,3 +27,16 @@ Before running the scraper, ensure you have the following installed:
    ```bash
    git clone https://github.com/yourusername/instagram-photo-scraper.git
    cd instagram-photo-scraper
+
+2. ** Install the required Python libraries: **
+3. ** Run the script: **
+
+## Usage 
+
+## Notes 
+
+## Contributing
+
+## License
+
+
