@@ -1,5 +1,7 @@
 # instagram-photo-downloader
 
+# NOT FINISHED !!
+
 # Instagram Photo Scraper
 
 This project is a Python-based scraper that allows you to download all photos from a public Instagram profile. The script automates the process of retrieving images, making it easy to back up or analyze content from any accessible Instagram account.
