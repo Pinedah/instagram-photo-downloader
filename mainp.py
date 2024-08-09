@@ -63,7 +63,7 @@ try:
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
     photoNum = 0
-    for _ in range(4):
+    for _ in range(10):
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -76,7 +76,7 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
 
         download_photos(srcs, photoNum)
-        photoNum = 1000
+        photoNum += 100
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
 
