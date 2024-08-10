@@ -14,12 +14,13 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 
 def download_photos(imagesLinks, imageNames, pn):
     os.makedirs('photos-samuel', exist_ok=True)
+    #os.chdir("photos-samuel")
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            os.chdir("photos-samuel")
+            logging.info(str(imageNames[i]))
             with open(f"{str(imageNames[i]).replace("\\", "")}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
