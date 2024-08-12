@@ -12,7 +12,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 #logging.disable(logging.CRITICAL)
 
 def download_photos(imagesLinks, imageNames):
-    os.makedirs('photos-samuel', exist_ok=True)
+    os.makedirs('photos-mewton', exist_ok=True)
     #os.chdir("photos-samuel")
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
@@ -23,7 +23,7 @@ def download_photos(imagesLinks, imageNames):
             nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"\photos-mewton\{nameDebugged}.jpg", "wb") as file:
+            with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
