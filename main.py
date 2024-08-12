@@ -11,7 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 import re
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
-#logging.disable(logging.CRITICAL)
+logging.disable(logging.DEBUG)
 
 ## CLEAN THE CODE!
 """
@@ -21,8 +21,17 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
     clean the paths with regex
 """
 
+def get_number_of_posts(profile):
+    numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+    logging.info(numberOfPosts.text)
+    posts = str(numberOfPosts.text).split('\n')
+    logging.info(posts)
+    p = posts[3].split(' ')
+    logging.info(p)
+    return int(p[0])
+
 def download_photos(imagesLinks, imageNames):
-    os.makedirs('photos-samuel', exist_ok=True)
+    os.makedirs('photos-mewton', exist_ok=True)
     #os.chdir("photos-samuel")
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
@@ -33,7 +42,7 @@ def download_photos(imagesLinks, imageNames):
             nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '-' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"photos-samuel\\{nameDebugged}.jpg", "wb") as file:
+            with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -44,7 +53,7 @@ users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
 # users = {'tags': ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat'], 'posts': [7, 4, 465, 30]}
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[2])
+browser.get('https://www.instagram.com/' + users[3])
 
 time.sleep(5)
 
@@ -77,8 +86,8 @@ try:
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
-    numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-
+    # numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+    logging.info(get_number_of_posts(browser))
     
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
     for _ in range(50): 
@@ -124,7 +133,7 @@ except NoSuchElementException:
 
 # Wait for user input before closing the browser
 input("Press Enter to close the browser...")
-logging.info(numberOfPosts.text)
+# logging.info(numberOfPosts.text)
 
 # Close the browser
 browser.quit()
