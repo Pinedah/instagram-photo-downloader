@@ -20,9 +20,10 @@ def download_photos(imagesLinks, imageNames):
         if response.status_code == 200:
             # Save the image to a file
             logging.info(str(imageNames[i]))
-            nameDebugged = str(imageNames[i]).replace("\\", "").replace("\n", "")
+            nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "")[:25]
+            logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"\photos-mewton\{nameDebugged}.jpg", "wb") as file:
+            with open(f"{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
