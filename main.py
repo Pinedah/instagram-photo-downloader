@@ -20,6 +20,12 @@ logging.disable(logging.DEBUG)
     clean the paths with regex
 """
 
+def clean_file_names(folderPath):
+    os.chdir(folderPath)
+    for file in os.listdir(folderPath):
+        os.rename(file, str(file).split('->')[1])
+
+
 def get_number_of_posts(profile):
     numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
     #logging.info(numberOfPosts.text)
@@ -38,7 +44,7 @@ def download_photos(imagesLinks, imageNames):
         if response.status_code == 200:
             # Save the image to a file
             logging.info(str(imageNames[i]))
-            nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '-' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
+            nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
             with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
