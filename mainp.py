@@ -11,8 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 #logging.disable(logging.CRITICAL)
 
-
-def download_photos(imagesLinks, imageNames, pn):
+def download_photos(imagesLinks, imageNames):
     os.makedirs('photos-samuel', exist_ok=True)
     #os.chdir("photos-samuel")
     for i in range(len(imagesLinks)):
@@ -21,7 +20,8 @@ def download_photos(imagesLinks, imageNames, pn):
         if response.status_code == 200:
             # Save the image to a file
             logging.info(str(imageNames[i]))
-            with open(f"{str(imageNames[i]).replace("\\", "")}.jpg", "wb") as file:
+            #nameDebugged = str(imageNames[i]).split()
+            with open(f"{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -66,7 +66,7 @@ try:
 
     numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
 
-    photoNum = 0
+    
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
     for _ in range(5): 
 
@@ -82,8 +82,7 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
             alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, alts, photoNum)
-        photoNum += 100
+        download_photos(srcs, alts)
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
 
