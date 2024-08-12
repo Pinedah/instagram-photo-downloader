@@ -17,17 +17,16 @@ logging.disable(logging.DEBUG)
 """
     delete webrowser import
     hide all the debug process
-    get the number of posts
     clean the paths with regex
 """
 
 def get_number_of_posts(profile):
     numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    logging.info(numberOfPosts.text)
+    #logging.info(numberOfPosts.text)
     posts = str(numberOfPosts.text).split('\n')
-    logging.info(posts)
+    #logging.info(posts)
     p = posts[3].split(' ')
-    logging.info(p)
+    #logging.info(p)
     return int(p[0])
 
 def download_photos(imagesLinks, imageNames):
