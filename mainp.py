@@ -33,6 +33,7 @@ def download_photos(imagesLinks, imageNames):
 
 
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
+# users = {'tags': ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat'], 'posts': [7, 4, 465, 30]}
 
 browser = webdriver.Chrome()
 browser.get('https://www.instagram.com/' + users[2])
