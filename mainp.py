@@ -23,7 +23,7 @@ def download_photos(imagesLinks, imageNames):
             nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"{nameDebugged}.jpg", "wb") as file:
+            with open(f"\photos-mewton\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
