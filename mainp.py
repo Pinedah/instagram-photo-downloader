@@ -22,7 +22,7 @@ def download_photos(imagesLinks, imageNames):
         if response.status_code == 200:
             # Save the image to a file
             logging.info(str(imageNames[i]))
-            nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:200]
+            nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '-' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
             with open(f"photos-samuel\\{nameDebugged}.jpg", "wb") as file:
