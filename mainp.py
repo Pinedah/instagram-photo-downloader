@@ -12,6 +12,11 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 #logging.disable(logging.CRITICAL)
 
 ## CLEAN THE CODE!
+"""
+    delete webrowser import
+    hide all the debug process
+    get the number of posts
+"""
 
 def download_photos(imagesLinks, imageNames):
     os.makedirs('photos-samuel', exist_ok=True)
