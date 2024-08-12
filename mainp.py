@@ -12,7 +12,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
 #logging.disable(logging.CRITICAL)
 
 def download_photos(imagesLinks, imageNames):
-    os.makedirs('photos-mewton', exist_ok=True)
+    os.makedirs('photos-samuel', exist_ok=True)
     #os.chdir("photos-samuel")
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
@@ -20,10 +20,10 @@ def download_photos(imagesLinks, imageNames):
         if response.status_code == 200:
             # Save the image to a file
             logging.info(str(imageNames[i]))
-            nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")
+            nameDebugged = str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:200]
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
+            with open(f"photos-samuel\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -33,7 +33,7 @@ def download_photos(imagesLinks, imageNames):
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[3])
+browser.get('https://www.instagram.com/' + users[2])
 
 time.sleep(5)
 
@@ -70,7 +70,7 @@ try:
 
     
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(5): 
+    for _ in range(50): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
