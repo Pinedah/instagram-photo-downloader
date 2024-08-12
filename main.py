@@ -51,8 +51,12 @@ def download_photos(imagesLinks, imageNames):
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
 # users = {'tags': ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat'], 'posts': [7, 4, 465, 30]}
 
+# TODO: Make the user select the profile
+print(f"Select the user (0,1,2,3): \n{users}")
+choice = int(input())
+
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[3])
+browser.get('https://www.instagram.com/' + users[input])
 
 time.sleep(5)
 
