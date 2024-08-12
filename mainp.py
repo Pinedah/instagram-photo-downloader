@@ -21,7 +21,7 @@ def download_photos(imagesLinks, imageNames):
             # Save the image to a file
             logging.info(str(imageNames[i]))
             #nameDebugged = str(imageNames[i]).split()
-            with open(f"{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
+            with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
