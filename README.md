@@ -25,22 +25,20 @@ Before running the scraper, ensure you have the following installed:
 ## Installation
 
 1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/Pinedah/instagram-photo-downloader.git
 
-   - Navigate to the correct directory after downloading:
+2. **Navigate to the correct directory after downloading:**
    ```bash
    cd instagram-photo-scraper
 
-2. ** Install the required Python libraries: **
+3. **Install the required Python libraries:**
    ```bash
    pip install -r requirements.txt
    
-3. ** Run the script: **
+4. **Run the script:**
    ```bash
    main.py
-   
 
 ## Usage 
 
