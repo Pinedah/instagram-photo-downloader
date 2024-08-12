@@ -8,6 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
+import re
+
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 #logging.disable(logging.CRITICAL)
 
@@ -16,6 +18,7 @@ logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)
     delete webrowser import
     hide all the debug process
     get the number of posts
+    clean the paths with regex
 """
 
 def download_photos(imagesLinks, imageNames):
