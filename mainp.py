@@ -11,6 +11,8 @@ from selenium.common.exceptions import NoSuchElementException
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 #logging.disable(logging.CRITICAL)
 
+## CLEAN THE CODE!
+
 def download_photos(imagesLinks, imageNames):
     os.makedirs('photos-samuel', exist_ok=True)
     #os.chdir("photos-samuel")
