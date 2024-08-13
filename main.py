@@ -35,19 +35,26 @@ def get_number_of_posts(profile):
     #logging.info(p)
     return int(p[0])
 
-def download_photos(imagesLinks, imageNames):
-    os.makedirs('photos-mewton', exist_ok=True)
-    #os.chdir("photos-samuel")
+def download_photos(imagesLinks, imageNames, users, choice):
+    
+    os.makedirs(f'photos-{users[choice]}', exist_ok=True)
+
+    pattern = r"[\/.:\\#*?\"<>]"
+
+    
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
+
             logging.info(str(imageNames[i]))
-            nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
+            #nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
+            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '->' + re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
+            
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
+            with open(f"photos-{users[choice]}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -62,7 +69,7 @@ print(f"Select the user (0,1,2,3): \n{users}")
 choice = int(input())
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[input])
+browser.get('https://www.instagram.com/' + users[choice])
 
 time.sleep(5)
 
@@ -96,10 +103,11 @@ try:
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
     # numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    logging.info(get_number_of_posts(browser))
-    
+    posts = get_number_of_posts(browser)
+    logging.info(posts)
+
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(50): 
+    for _ in range(int(posts / 15)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -113,7 +121,9 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
             alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, alts)
+        download_photos(srcs, alts, users, choice)
+        htmlElem.send_keys(Keys.END)
+        time.sleep(2)
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
 
@@ -139,6 +149,9 @@ try:
 
 except NoSuchElementException:
     print("Was not able to find an element with that class name.")
+
+
+clean_file_names()
 
 # Wait for user input before closing the browser
 input("Press Enter to close the browser...")
