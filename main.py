@@ -24,8 +24,15 @@ def clean_file_names(folderPath):
     os.chdir(folderPath)
     logging.info(os.curdir)
     logging.info(pprint.pformat(os.listdir(os.curdir)))
+    i = 0
     for file in os.listdir(os.curdir):
-        os.rename(file, str(file).split('---cut---')[1])
+        if file in os.listdir(os.curdir):
+            os.rename(file, str(file).split('---cut---')[1] + '('+i+')')
+            i += 1
+        else:
+            os.rename(file, str(file).split('---cut---')[1])
+            i = 0
+            
         logging.info(file)
 
 
