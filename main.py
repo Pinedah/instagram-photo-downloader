@@ -1,148 +1,158 @@
 #! python3
 # scrapping photos an instagram profile
 
-import logging, time, webbrowser, requests, os
+# still need to add ability to know when all photos are scraped and quit the browser
+
+import tkinter as tk
+from tkinter import messagebox, scrolledtext
+import time, requests, os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
-
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, WebDriverException, NoSuchWindowException
 import re
 
-logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
-logging.disable(logging.DEBUG)
-
-## CLEAN THE CODE!
-"""
-    delete webrowser import
-    hide all the debug process
-    clean the paths with regex
-"""
-
-def clean_file_names(folderPath):
-    os.chdir(folderPath)
-    for file in os.listdir(folderPath):
-        os.rename(file, str(file).split('->')[1])
-
-
-def get_number_of_posts(profile):
-    numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    #logging.info(numberOfPosts.text)
-    posts = str(numberOfPosts.text).split('\n')
-    #logging.info(posts)
-    p = posts[3].split(' ')
-    #logging.info(p)
-    return int(p[0])
+def clean_file_names(image_name):
+    # Replacing invalid characters with an underscore or remove them
+    cleaned_name = re.sub(r'[\/:*?"<>|\n]', "", image_name)
+    return cleaned_name
 
 def download_photos(imagesLinks, imageNames):
-    os.makedirs('photos-mewton', exist_ok=True)
-    #os.chdir("photos-samuel")
+    os.makedirs('Photos', exist_ok=True)
     for i in range(len(imagesLinks)):
-        response = requests.get(imagesLinks[i])
-        # Ensure the request was successful
-        if response.status_code == 200:
-            # Save the image to a file
-            logging.info(str(imageNames[i]))
-            nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
-            logging.info(nameDebugged)
-            #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"photos-mewton\\{nameDebugged}.jpg", "wb") as file:
-                file.write(response.content)
-            print("Image downloaded successfully!")
-        else:
-            print(f"Failed to download image. Status code: {response.status_code}")
+        try:
+            response = requests.get(imagesLinks[i], timeout=10)  # Set a timeout for the request
+            if response.status_code == 200:
+                cleaned_image_name = clean_file_names(imageNames[i])[:100]
+                file_name = f"Photos\\{cleaned_image_name}.jpg"
+                with open(file_name, "wb") as file:
+                    file.write(response.content)
+                status_label.config(text=f"Image '{cleaned_image_name}' downloaded successfully!")
+                log_text.insert(tk.END, f"Downloaded: {cleaned_image_name}\n")
+            else:
+                status_label.config(text=f"Failed to download image. Status code: {response.status_code}")
+                log_text.insert(tk.END, f"Failed to download image. Status code: {response.status_code}\n")
+        except requests.exceptions.RequestException as e:
+            status_label.config(text=f"Network error occurred: {e}")
+            log_text.insert(tk.END, f"Network error occurred: {e}\n")
+            break
+        except OSError as e:
+            status_label.config(text=f"File saving error: {e}")
+            log_text.insert(tk.END, f"File saving error: {e}\n")
+            continue
 
-
-users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
-# users = {'tags': ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat'], 'posts': [7, 4, 465, 30]}
-
-# TODO: Make the user select the profile
-print(f"Select the user (0,1,2,3): \n{users}")
-choice = int(input())
-
-browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[input])
-
-time.sleep(5)
-
-try:
-
-    loginButton = browser.find_element(By.LINK_TEXT, 'Log In')
-    loginButton.click()
-
-    time.sleep(4)
-
-    emailForm = browser.find_elements(By.TAG_NAME, 'input')
-    emailForm[0].click()
-    emailForm[0].send_keys('papanacho11')
-    time.sleep(2)
-    # emailForm.send_keys(Keys.TAB)
-    time.sleep(2)
-    emailForm[1].click()
-    emailForm[1].send_keys('Papanachito')
-    time.sleep(2)
-    emailForm[1].submit()
-
-    #emailForm.send_keys(Keys.ENTER)
-
+def scrape_photos():
+    username = username_entry.get()
+    if not username:
+        messagebox.showwarning("Input Error", "Please enter an Instagram username.")
+        return
     
-    time.sleep(4)
-    notnow = browser.find_element(By.TAG_NAME, 'button')
-    notnow.click()
+    browser = None
+    try:
+        status_label.config(text="Opening browser and navigating to Instagram...")
+        log_text.insert(tk.END, "Opening browser and navigating to Instagram...\n")
+        browser = webdriver.Chrome()
+        browser.get(f'https://www.instagram.com/{username}/')
 
-    time.sleep(2)
+        time.sleep(5)
 
-    htmlElem = browser.find_element(By.TAG_NAME, 'html')
+        try:
+            private_message = browser.find_elements(By.XPATH, "//*[contains(text(), 'This Account is Private')]")
+            if private_message:
+                status_label.config(text="The account is private and not scrapeable.")
+                log_text.insert(tk.END, "The account is private and not scrapeable.\n")
+            else:
+                status_label.config(text="Account is public. Scraping images...")
+                log_text.insert(tk.END, "Account is public. Scraping images...\n")
 
-    # numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    logging.info(get_number_of_posts(browser))
+                # Waiting for the "Show more posts" button to be clickable
+                try:
+                    show_more_button = WebDriverWait(browser, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'Show more posts')]"))
+                    )
+                    browser.execute_script("arguments[0].scrollIntoView();", show_more_button)
+                    show_more_button.click()
+                    time.sleep(3)
+                except NoSuchElementException:
+                    pass
+                except Exception as e:
+                    log_text.insert(tk.END, f"Error clicking 'Show more posts' button: {e}\n")
+                    status_label.config(text=f"Error clicking 'Show more posts' button: {e}")
+                    return
+
+                while True:
+                    div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
+                    if not div_elem:
+                        break
+                    
+                    img_elems = [div.find_element(By.TAG_NAME, 'img') for div in div_elem]
+
+                    srcs = [img.get_attribute('src') for img in img_elems]
+                    alts = [img.get_attribute('alt') for img in img_elems]
+
+                    download_photos(srcs, alts)
+                    browser.find_element(By.TAG_NAME, 'html').send_keys(Keys.END)
+                    time.sleep(2)
+
+                    # Checking if all images have been loaded
+                    if len(srcs) == 0:
+                        break
+
+                status_label.config(text="Scraping completed!")
+                log_text.insert(tk.END, "Scraping completed!\n")
+
+        except NoSuchElementException:
+            status_label.config(text="Error: Unable to find the required element.")
+            log_text.insert(tk.END, "Error: Unable to find the required element.\n")
+        
+        except NoSuchWindowException:
+            status_label.config(text="Error: Browser window was closed unexpectedly.")
+            log_text.insert(tk.END, "Error: Browser window was closed unexpectedly.\n")
+
+    except WebDriverException as e:
+        status_label.config(text=f"WebDriver error: {str(e)}")
+        log_text.insert(tk.END, f"WebDriver error: {str(e)}\n")
     
-    # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(50): 
+    finally:
+        if browser:
+            try:
+                browser.quit()
+                status_label.config(text="Browser closed.")
+                log_text.insert(tk.END, "Browser closed.\n")
+            except WebDriverException as e:
+                status_label.config(text=f"Error closing the browser: {e}")
+                log_text.insert(tk.END, f"Error closing the browser: {e}\n")
 
-        div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
+# Tkinter GUI setup with dark theme
+root = tk.Tk()
+root.title("Instagram Photo Scraper")
+root.geometry("600x425")
+root.configure(bg='#2b2b2b')
 
-        img_elems = []
-        srcs = []
-        alts = []
-        for i in range(len(div_elem)):
-            img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
+# Username Label and Entry
+username_frame = tk.Frame(root, bg='#2b2b2b')
+username_frame.pack(pady=20, padx=20, fill='x')
 
-        for j in range(len(img_elems)):
-            srcs.append(img_elems[j].get_attribute('src'))
-            alts.append(img_elems[j].get_attribute('alt'))
+username_label = tk.Label(username_frame, text="Instagram Username:", bg='#2b2b2b', fg='white', font=("Helvetica", 14))
+username_label.pack(side='left')
 
-        download_photos(srcs, alts)
-        htmlElem.send_keys(Keys.END)
-        time.sleep(2)
+username_entry = tk.Entry(username_frame, width=40, bg='#3c3f41', fg='white', insertbackground='white', font=("Helvetica", 14))
+username_entry.pack(side='left', padx=10)
 
-    # DOWNLOAD THE PHOTOS
+# Scrape Button
+scrape_button = tk.Button(root, text="Scrape Photos", command=scrape_photos, bg="#5a5a5a", fg="white", font=("Helvetica", 14), width=20)
+scrape_button.pack(pady=10)
 
-    logging.info(len(srcs))
-    logging.info(srcs)
+# Status Label
+status_label = tk.Label(root, text="", bg='#2b2b2b', fg='white', font=("Helvetica", 12))
+status_label.pack(pady=10)
 
-    # Send a GET request to the image URL
-    """os.makedirs('photos-samuel', exist_ok=True)
-    for i in range(len(srcs)):
+# Log Section
+log_text = scrolledtext.ScrolledText(root, bg='#3c3f41', fg='white', font=("Helvetica", 12), height=10, wrap=tk.WORD)
+log_text.pack(pady=10, padx=10, fill='both')
 
-        response = requests.get(srcs[i])
-        # Ensure the request was successful
-        if response.status_code == 200:
-            # Save the image to a file
-            with open(f"photos-samuel\photo{i+1}.jpg", "wb") as file:
-                file.write(response.content)
-            print("Image downloaded successfully!")
-        else:
-            print(f"Failed to download image. Status code: {response.status_code}")"""
-
-
-except NoSuchElementException:
-    print("Was not able to find an element with that class name.")
-
-# Wait for user input before closing the browser
-input("Press Enter to close the browser...")
-# logging.info(numberOfPosts.text)
-
-# Close the browser
-browser.quit()
+# Start the GUI loop
+root.mainloop()
