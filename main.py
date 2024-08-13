@@ -23,16 +23,16 @@ logging.disable(logging.DEBUG)
 def clean_file_names(folderPath):
     os.chdir(folderPath)
     for file in os.listdir(folderPath):
-        os.rename(file, str(file).split('->')[1])
+        os.rename(file, str(file).split('---cut---')[1])
 
 
 def get_number_of_posts(profile):
     numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    #logging.info(numberOfPosts.text)
+    logging.info(numberOfPosts.text)
     posts = str(numberOfPosts.text).split('\n')
-    #logging.info(posts)
+    logging.info(posts)
     p = posts[3].split(' ')
-    #logging.info(p)
+    logging.info(p)
     return int(p[0])
 
 def download_photos(imagesLinks, imageNames, users, choice):
@@ -50,7 +50,7 @@ def download_photos(imagesLinks, imageNames, users, choice):
 
             logging.info(str(imageNames[i]))
             #nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
-            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '->' + re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
+            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---' + re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
             
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
@@ -103,11 +103,13 @@ try:
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
     # numberOfPosts = browser.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+    time.sleep(2)
     posts = get_number_of_posts(browser)
     logging.info(posts)
+    time.sleep(1)
 
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(int(posts / 15)): 
+    for _ in range(round(posts / 15)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
