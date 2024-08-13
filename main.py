@@ -153,7 +153,7 @@ except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
 
-clean_file_names()
+clean_file_names(f'photos-' + users[choice])
 
 # Wait for user input before closing the browser
 input("Press Enter to close the browser...")
