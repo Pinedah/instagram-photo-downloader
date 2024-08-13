@@ -21,9 +21,13 @@ logging.disable(logging.DEBUG)
 """
 
 def clean_file_names(folderPath):
+    logging.info(folderPath)
     os.chdir(folderPath)
-    for file in os.listdir(folderPath):
+    logging.info(os.curdir)
+    logging.info(pprint.pformat(os.listdir(os.curdir)))
+    for file in os.listdir(os.curdir):
         os.rename(file, str(file).split('---cut---')[1])
+        logging.info(file)
 
 
 def get_number_of_posts(profile):
