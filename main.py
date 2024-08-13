@@ -1,7 +1,7 @@
 #! python3
 # scrapping photos an instagram profile
 
-import logging, time, webbrowser, requests, os
+import logging, time, webbrowser, requests, os, pprint
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -17,7 +17,6 @@ logging.disable(logging.DEBUG)
 """
     delete webrowser import
     hide all the debug process
-    clean the paths with regex
 """
 
 def clean_file_names(folderPath):
@@ -53,7 +52,6 @@ def download_photos(imagesLinks, imageNames, users, choice):
             # Save the image to a file
 
             logging.info(str(imageNames[i]))
-            #nameDebugged = str(imagesLinks[i]).replace("/", "").replace(".", "").replace(":","").replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100] + '->' + str(imageNames[i]).replace("\n", "").replace("\\", "").replace("#", "").replace(":", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "")[:100]
             nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---' + re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
             
             logging.info(nameDebugged)
@@ -113,7 +111,7 @@ try:
     time.sleep(1)
 
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(round(posts / 15)): 
+    for _ in range(round(posts / 20)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -128,6 +126,8 @@ try:
             alts.append(img_elems[j].get_attribute('alt'))
 
         download_photos(srcs, alts, users, choice)
+        htmlElem.send_keys(Keys.END)
+        time.sleep(2)
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
         htmlElem.send_keys(Keys.END)
@@ -160,7 +160,7 @@ except NoSuchElementException:
 clean_file_names(f'photos-' + users[choice])
 
 # Wait for user input before closing the browser
-input("Press Enter to close the browser...")
+# input("Press Enter to close the browser...")
 # logging.info(numberOfPosts.text)
 
 # Close the browser
