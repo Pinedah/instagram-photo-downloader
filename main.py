@@ -20,22 +20,11 @@ logging.disable(logging.DEBUG)
 """
 
 def clean_file_names(folderPath):
-    logging.info(folderPath)
     os.chdir(folderPath)
-    logging.info(os.curdir)
-    logging.info(pprint.pformat(os.listdir(os.curdir)))
-    names = {}
-
-    logging.info(os.curdir)
-
-    logging.info(len(os.listdir(os.curdir)))
-
     i = 0
     for file in os.listdir(os.curdir):
         os.rename(file, 'Photo ' + str(i) + ' - ' + str(file).split('---cut---')[1])
         i += 1
-
-clean_file_names(f'photo test copy')
 
 
 def get_number_of_posts(profile):
@@ -166,7 +155,7 @@ except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
 
-# clean_file_names(f'photos-' + users[choice])
+clean_file_names(f'photos-' + users[choice])
 
 # Wait for user input before closing the browser
 # input("Press Enter to close the browser...")
