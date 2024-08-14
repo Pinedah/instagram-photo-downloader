@@ -157,12 +157,7 @@ except NoSuchElementException:
 
 clean_file_names(f'photos-' + users[choice])
 
-# Wait for user input before closing the browser
-# input("Press Enter to close the browser...")
-# logging.info(numberOfPosts.text)
-
-# Close the browser
 browser.quit()
 
-os.chdir(f'photos-{users[choice]}')
+os.chdir('photos-' + users[choice])
 print(str(len(os.listdir(os.curdir))) + ' photos downloaded!')
