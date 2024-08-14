@@ -44,7 +44,7 @@ def download_photos(imagesLinks, imageNames, user):
             # logging.info(nameDebugged)
             with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
-            print(f"Image {i} downloaded successfully!")
+            print(f"Image downloaded successfully!")
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
@@ -109,11 +109,6 @@ try:
         for _ in range(3):
             htmlElem.send_keys(Keys.END)
             time.sleep(2)
-        """htmlElem.send_keys(Keys.END)
-        time.sleep(2)
-        htmlElem.send_keys(Keys.END)
-        time.sleep(2)
-        """
 
     # logging.info(len(srcs))
     # logging.info(srcs)
