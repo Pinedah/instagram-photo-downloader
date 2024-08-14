@@ -20,11 +20,8 @@ def clean_file_names(folderPath):
 
 def get_number_of_posts(profile):
     numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    # logging.info(numberOfPosts.text)
     posts = str(numberOfPosts.text).split('\n')
-    # logging.info(posts)
     p = posts[3].split(' ')
-    # logging.info(p)
     return int(p[0])
 
 def download_photos(imagesLinks, imageNames, user):
@@ -37,11 +34,8 @@ def download_photos(imagesLinks, imageNames, user):
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-
-            # logging.info(str(imageNames[i]))
             nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
-            
-            # logging.info(nameDebugged)
+
             with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print(f"Image downloaded successfully!")
@@ -53,7 +47,6 @@ def download_photos(imagesLinks, imageNames, user):
 
 users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
 
-# TODO: Make the user enters the account name
 print(f"Select the user (0,1,2,3): \n{users}")
 choice = int(input())
 
@@ -109,10 +102,7 @@ try:
         for _ in range(3):
             htmlElem.send_keys(Keys.END)
             time.sleep(2)
-
-    # logging.info(len(srcs))
-    # logging.info(srcs)
-
+            
 except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
