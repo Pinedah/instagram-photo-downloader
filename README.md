@@ -1,6 +1,6 @@
 # instagram-photo-downloader
 
-# NOT FINISHED !!
+# ALMOST FINISHED !!
 
 # Instagram Photo Scraper
 
