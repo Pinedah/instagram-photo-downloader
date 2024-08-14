@@ -32,7 +32,7 @@ def clean_file_names(folderPath):
         else:
             os.rename(file, str(file).split('---cut---')[1])
             i = 0
-            
+
         logging.info(file)
 
 
@@ -118,7 +118,7 @@ try:
     time.sleep(1)
 
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(round(posts / 20)): 
+    for _ in range(round(posts / 40)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
