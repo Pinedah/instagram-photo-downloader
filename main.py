@@ -24,16 +24,18 @@ def clean_file_names(folderPath):
     os.chdir(folderPath)
     logging.info(os.curdir)
     logging.info(pprint.pformat(os.listdir(os.curdir)))
+    names = {}
+
+    logging.info(os.curdir)
+
+    logging.info(len(os.listdir(os.curdir)))
+
     i = 0
     for file in os.listdir(os.curdir):
-        if file in os.listdir(os.curdir):
-            os.rename(file, str(file).split('---cut---')[1] + '('+i+')')
-            i += 1
-        else:
-            os.rename(file, str(file).split('---cut---')[1])
-            i = 0
+        os.rename(file, 'Photo ' + str(i) + ' - ' + str(file).split('---cut---')[1])
+        i += 1
 
-        logging.info(file)
+clean_file_names(f'photo test copy')
 
 
 def get_number_of_posts(profile):
@@ -45,7 +47,7 @@ def get_number_of_posts(profile):
     logging.info(p)
     return int(p[0])
 
-def download_photos(imagesLinks, imageNames, users, choice):
+def download_photos(imagesLinks, imageNames, user):
     
     os.makedirs(f'photos-{users[choice]}', exist_ok=True)
 
@@ -59,11 +61,11 @@ def download_photos(imagesLinks, imageNames, users, choice):
             # Save the image to a file
 
             logging.info(str(imageNames[i]))
-            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---' + re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
+            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
             
             logging.info(nameDebugged)
             #with open(f"\photos-mewton\{str(imageNames[i]).replace("\\n", "")}.jpg", "wb") as file:
-            with open(f"photos-{users[choice]}\\{nameDebugged}.jpg", "wb") as file:
+            with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
             print("Image downloaded successfully!")
         else:
@@ -118,7 +120,7 @@ try:
     time.sleep(1)
 
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(round(posts / 40)): 
+    for _ in range(round(posts / 32)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -132,7 +134,7 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
             alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, alts, users, choice)
+        download_photos(srcs, alts, users[choice])
         htmlElem.send_keys(Keys.END)
         time.sleep(2)
         htmlElem.send_keys(Keys.END)
@@ -164,7 +166,7 @@ except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
 
-clean_file_names(f'photos-' + users[choice])
+# clean_file_names(f'photos-' + users[choice])
 
 # Wait for user input before closing the browser
 # input("Press Enter to close the browser...")
@@ -172,3 +174,6 @@ clean_file_names(f'photos-' + users[choice])
 
 # Close the browser
 browser.quit()
+
+os.chdir(f'photos-{users[choice]}')
+print(str(len(os.listdir(os.curdir))) + ' photos downloaded!')
