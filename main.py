@@ -90,7 +90,7 @@ try:
     logging.info(posts)
     time.sleep(2)
 
-    for _ in range(round(posts / 37)): 
+    for _ in range(round(posts / 34)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
@@ -120,8 +120,5 @@ except NoSuchElementException:
 clean_file_names(f'photos-' + users[choice])
 
 browser.quit()
-
-os.chdir('photos-' + users[choice])
-print(str(len(os.listdir(os.curdir))) + ' photos downloaded!')
 
 print("\n\nThanks for scrapping with us, come again soon!!<3<3 \n\n")
