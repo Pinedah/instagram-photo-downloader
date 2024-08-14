@@ -82,14 +82,14 @@ try:
     notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
-    time.sleep(2)
+    time.sleep(5)
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
-    time.sleep(2)
+    time.sleep(3)
     posts = get_number_of_posts(browser)
     logging.info(posts)
-    time.sleep(1)
+    time.sleep(2)
 
     for _ in range(round(posts / 37)): 
 
