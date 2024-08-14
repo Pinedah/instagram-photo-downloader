@@ -72,13 +72,12 @@ try:
     emailForm = browser.find_elements(By.TAG_NAME, 'input')
     emailForm[0].click()
     emailForm[0].send_keys('papanacho11')
-    time.sleep(1)
-    time.sleep(1)
+    time.sleep(2)
     emailForm[1].click()
     emailForm[1].send_keys('Papanachito')
-    time.sleep(1)
+    time.sleep(1.5)
     emailForm[1].submit()
-    time.sleep(4)
+    time.sleep(5.2)
     notnow = browser.find_element(By.TAG_NAME, 'button')
     notnow.click()
 
@@ -86,7 +85,7 @@ try:
 
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
 
-    time.sleep(3)
+    time.sleep(4)
     posts = get_number_of_posts(browser)
     logging.info(posts)
     time.sleep(2)
