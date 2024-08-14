@@ -109,7 +109,7 @@ try:
     time.sleep(1)
 
     # TODO: Add the math expression neccessary to in function to the number of posts, define the scrolls
-    for _ in range(round(posts / 32)): 
+    for _ in range(round(posts / 34)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
 
