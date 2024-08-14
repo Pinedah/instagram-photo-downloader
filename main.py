@@ -106,7 +106,7 @@ try:
 
         download_photos(srcs, alts, users[choice])
 
-        for _ in (3):
+        for _ in range(3):
             htmlElem.send_keys(Keys.END)
             time.sleep(2)
         """htmlElem.send_keys(Keys.END)
