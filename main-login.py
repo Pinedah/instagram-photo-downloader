@@ -43,17 +43,16 @@ def download_photos(imagesLinks, imageNames, user):
             print(f"Failed to download image. Status code: {response.status_code}")
 
 
+print("\n--- Please checkout the README file before using the script :). ---\n")
 
 
-# users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
-
-# print(f"Select the user (0,1,2,3): \n{users}")
-# choice = int(input())
+print("Login into your account and then go to the profile you want to scrapp.")
 
 browser = webdriver.Chrome()
 browser.get('https://www.instagram.com/')
 
-time.sleep(4)
+input("When you are ready, press ENTER in the console")
+time.sleep(3)
 
 try:
 
