@@ -1,7 +1,7 @@
 #! python3
 # main.py - Simple script that download all photos from a public Instagram profile.
 
-import logging, time, requests, os, pprint, re
+import logging, time, requests, os, re
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
