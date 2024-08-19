@@ -32,7 +32,7 @@ def get_number_of_posts(profile):
 
 def download_photos(imagesLinks, imageNames, user):
     
-    os.makedirs(f'photos-{users[choice]}', exist_ok=True)
+    os.makedirs(f'photos-{user}', exist_ok = True)
     pattern = r"[\/.:\\#*?\"<>]"
     
     for i in range(len(imagesLinks)):
@@ -49,35 +49,33 @@ def download_photos(imagesLinks, imageNames, user):
             print(f"Failed to download image. Status code: {response.status_code}")
 
 
+# -------------------- BEGIN CODE -----------------------------------------------
+# TODO: Add Main !!
+
 print("\n--- Please checkout the README file before using the script :). ---\n")
-
-
 print("Login into your account and then go to the profile you want to scrapp.")
 
 browser = webdriver.Chrome()
 browser.get('https://www.instagram.com/')
 
 input("When you are ready, press ENTER in the console")
-time.sleep(3)
+time.sleep(2)
 
 try:
-
-    time.sleep(2)
-
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
-
     time.sleep(4)
+
+    accountName = get_number_of_posts(browser)
     posts = get_number_of_posts(browser)
-    logging.info(posts)
     time.sleep(2)
 
-    for _ in range(round(posts / 34)): 
-
+    for _ in range(round(posts / 34)):
+        
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
-
         img_elems = []
         srcs = []
         alts = []
+
         for i in range(len(div_elem)):
             img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
@@ -85,7 +83,7 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
             alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, alts, users[choice])
+        download_photos(srcs, alts, accountName)
 
         for _ in range(3):
             htmlElem.send_keys(Keys.END)
@@ -95,7 +93,7 @@ except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
 
-clean_file_names(f'photos-' + users[choice])
+clean_file_names(f'photos-' + accountName)
 
 browser.quit()
 
