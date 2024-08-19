@@ -30,7 +30,7 @@ def get_number_of_posts(profile):
     posts = infoByLines[3].split(' ')
     return int(posts[0])
 
-numerOfPhotos = 0
+numberOfPhotos = 0
 
 def download_photos(imagesLinks, imageNames, user):
     
@@ -49,7 +49,6 @@ def download_photos(imagesLinks, imageNames, user):
             with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
                 numberOfPhotos += 1
-
             print(f"Image {str(numberOfPhotos)} downloaded successfully!")
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
