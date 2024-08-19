@@ -1,5 +1,5 @@
 #! python3
-# scrapping photos an instagram profile
+# scrapping photos from an instagram profile
 
 import logging, time, requests, os, pprint, re
 
