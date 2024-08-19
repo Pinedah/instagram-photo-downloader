@@ -51,7 +51,7 @@ def download_photos(imagesLinks, imageNames, user):
 
 
 # -------------------- BEGIN CODE -----------------------------------------------
-# TODO: Add Main !!
+# TODO: Add Main and UI !!
 
 print("\n--- Please checkout the README file before using the script :). ---\n")
 print("Login into your account and then go to the profile you want to scrapp.")
