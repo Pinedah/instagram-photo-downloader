@@ -1,7 +1,7 @@
 #! python3
-# scrapping photos from an instagram profile
+# main-login.py - Simple script that download all photos from an Instagram profile (LogIn manually).
 
-import logging, time, requests, os, pprint, re
+import logging, time, requests, os, re
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
