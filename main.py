@@ -26,7 +26,7 @@ def get_number_of_posts(profile):
 
 def download_photos(imagesLinks, imageNames, user):
     
-    os.makedirs(f'photos-{users[choice]}', exist_ok=True)
+    os.makedirs(f'photos-{user}', exist_ok=True)
     pattern = r"[\/.:\\#*?\"<>]"
     
     for i in range(len(imagesLinks)):
@@ -43,15 +43,17 @@ def download_photos(imagesLinks, imageNames, user):
             print(f"Failed to download image. Status code: {response.status_code}")
 
 
+# -------------------- BEGIN CODE -----------------------------------------------
+# TODO: Add Main and UI !!
 
+# THIS ACCOUNT WAS CREATED JUST TO TEST, PLEASE DO NOT CHANGE THE CREDENTIALS
+scrapperUser = "papanacho11"
+scrapperPassword = "Papanachito"
 
-users = ['pinedah_11', 'faatii._01', 'samueln.ortigoza', 'mewton_the_cat']
-
-print(f"Select the user (0,1,2,3): \n{users}")
-choice = int(input())
+accountName = str(input("\n\nEnter the account name to scrapp (check the README).\n"))
 
 browser = webdriver.Chrome()
-browser.get('https://www.instagram.com/' + users[choice])
+browser.get('https://www.instagram.com/' + accountName)
 
 time.sleep(4)
 
@@ -64,10 +66,10 @@ try:
 
     emailForm = browser.find_elements(By.TAG_NAME, 'input')
     emailForm[0].click()
-    emailForm[0].send_keys('papanacho11')
+    emailForm[0].send_keys(scrapperUser)
     time.sleep(2)
     emailForm[1].click()
-    emailForm[1].send_keys('Papanachito')
+    emailForm[1].send_keys(scrapperPassword)
     time.sleep(1.5)
     emailForm[1].submit()
     time.sleep(5.2)
@@ -83,13 +85,13 @@ try:
     logging.info(posts)
     time.sleep(2)
 
-    for _ in range(round(posts / 34)): 
+    for _ in range(round(posts / 25)): 
 
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
-
         img_elems = []
         srcs = []
         alts = []
+
         for i in range(len(div_elem)):
             img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
@@ -97,7 +99,7 @@ try:
             srcs.append(img_elems[j].get_attribute('src'))
             alts.append(img_elems[j].get_attribute('alt'))
 
-        download_photos(srcs, alts, users[choice])
+        download_photos(srcs, alts, accountName)
 
         for _ in range(3):
             htmlElem.send_keys(Keys.END)
@@ -107,8 +109,9 @@ except NoSuchElementException:
     print("Was not able to find an element with that class name.")
 
 
-clean_file_names(f'photos-' + users[choice])
+clean_file_names(f'photos-' + accountName)
+
+print(f"\n\n{len(os.listdir(os.curdir))} photos downloaded...")
+print("Thanks for scrapping with us, come again soon!!<3<3 \n\n")
 
 browser.quit()
-
-print("\n\nThanks for scrapping with us, come again soon!!<3<3 \n\n")
