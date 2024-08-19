@@ -19,13 +19,16 @@ def clean_file_names(folderPath):
         i += 1
 
 def get_profile_name(profile):
-    profileinfo = profile.find_element(By.CLASS_NAME, 'x1lliihq') # profile name
+    profileInfo = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+    infoByLines = str(profileInfo.text).split('\n')
+    tag = infoByLines[0]
+    return tag
 
 def get_number_of_posts(profile):
-    numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    posts = str(numberOfPosts.text).split('\n')
-    p = posts[3].split(' ')
-    return int(p[0])
+    profileInfo = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
+    infoByLines = str(profileInfo.text).split('\n')
+    posts = infoByLines[3].split(' ')
+    return int(posts[0])
 
 def download_photos(imagesLinks, imageNames, user):
     
