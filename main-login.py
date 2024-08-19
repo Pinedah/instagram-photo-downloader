@@ -30,8 +30,6 @@ def get_number_of_posts(profile):
     posts = infoByLines[3].split(' ')
     return int(posts[0])
 
-numberOfPhotos = 0
-
 def download_photos(imagesLinks, imageNames, user):
     
     os.makedirs(f'photos-{user}', exist_ok = True)
@@ -45,11 +43,9 @@ def download_photos(imagesLinks, imageNames, user):
             # Save the image to a file
             nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
 
-            global numberOfPhotos
             with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
-                numberOfPhotos += 1
-            print(f"Image {str(numberOfPhotos)} downloaded successfully!")
+            print(f"Image downloaded successfully!")
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
@@ -59,12 +55,14 @@ def download_photos(imagesLinks, imageNames, user):
 
 print("\n--- Please checkout the README file before using the script :). ---\n")
 print("Login into your account and then go to the profile you want to scrapp.")
-input("When you are ready, press ENTER in the console to begin the downloads.")
+print("When you are ready, press ENTER in the console to begin the downloads.\n\n")
 
 # Initialize browser object
 browser = webdriver.Chrome()
 browser.get('https://www.instagram.com/')
 time.sleep(2)
+
+input()
 
 try:
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
@@ -74,7 +72,7 @@ try:
     posts = get_number_of_posts(browser)
     time.sleep(2)
 
-    for _ in range(round(posts / 34)):
+    for _ in range(round(posts / 25)):
         
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
         img_elems = []
@@ -93,6 +91,7 @@ try:
         for _ in range(3):
             htmlElem.send_keys(Keys.END)
             time.sleep(2)
+
             
 except NoSuchElementException:
     print("Was not able to find an element with that class name.")
@@ -100,7 +99,7 @@ except NoSuchElementException:
 
 clean_file_names(f'photos-' + accountName)
 
-print(f"\n\n{len(os.listdir('photos-' + accountName))} photos downloaded...")
+print(f"\n\n{len(os.listdir(os.curdir))} photos downloaded...")
 print("Thanks for scrapping with us, come again soon!!<3<3 \n\n")
 
 browser.quit()
