@@ -28,7 +28,6 @@ Before running the scraper, ensure you have the following installed:
    ```bash
    git clone https://github.com/Pinedah/instagram-photo-downloader.git
 
-
 2. **Install the required Python libraries:**
    Requirements given before.
    
