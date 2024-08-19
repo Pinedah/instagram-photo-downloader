@@ -29,8 +29,6 @@ Before running the scraper, ensure you have the following installed:
    git clone https://github.com/Pinedah/instagram-photo-downloader.git
 
    - Navigate to the correct directory after downloading:
-   ```bash
-   cd instagram-photo-scraper
 
 2. **Install the required Python libraries:**
    Requirements given.
@@ -45,7 +43,7 @@ Before running the scraper, ensure you have the following installed:
 ## Usage -> MAIN AND MAIN-LOGIN
 
 1. Main
-With main.py you could download fully automatically (NO LOGIN NECESSARY) photos from any public Instagram Account. 
+With main.py, you can download photos fully automatically (no login necessary) from any public Instagram account.
 
 2. Main-Login
-With main-login.py will be necessary to LogIn once Instagram has been showed up, then you will press enter at the console and the downloads will begin. This file gives you the chance to scrapp photos from an private account that you follow.
+With main-login.py, you will need to log in to your Instagram account. Once Instagram has loaded, log in manually, then press enter in the console, and the downloads will begin. This script allows you to scrape photos from a private account that you follow.
