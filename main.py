@@ -1,5 +1,5 @@
 #! python3
-# scrapping photos from an instagram profile
+# main.py - Simple script that download all photos from a public Instagram profile.
 
 import logging, time, requests, os, pprint, re
 
