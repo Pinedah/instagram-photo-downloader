@@ -30,7 +30,7 @@ def get_number_of_posts(profile):
     posts = infoByLines[3].split(' ')
     return int(posts[0])
 
-numberOfPhotos = 1
+numerOfPhotos = 0
 
 def download_photos(imagesLinks, imageNames, user):
     
@@ -43,14 +43,14 @@ def download_photos(imagesLinks, imageNames, user):
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:130] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
-            
-            with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
-                file.write(response.content)
+            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
 
             global numberOfPhotos
+            with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
+                file.write(response.content)
+                numberOfPhotos += 1
+
             print(f"Image {str(numberOfPhotos)} downloaded successfully!")
-            numberOfPhotos += 1
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
@@ -60,11 +60,11 @@ def download_photos(imagesLinks, imageNames, user):
 
 print("\n--- Please checkout the README file before using the script :). ---\n")
 print("Login into your account and then go to the profile you want to scrapp.")
+input("When you are ready, press ENTER in the console to begin the downloads.")
 
+# Initialize browser object
 browser = webdriver.Chrome()
 browser.get('https://www.instagram.com/')
-
-input("When you are ready, press ENTER in the console")
 time.sleep(2)
 
 try:
@@ -101,7 +101,7 @@ except NoSuchElementException:
 
 clean_file_names(f'photos-' + accountName)
 
-print(f"\n\n{len(os.listdir('photos' + accountName))} photos downloaded...")
+print(f"\n\n{len(os.listdir('photos-' + accountName))} photos downloaded...")
 print("Thanks for scrapping with us, come again soon!!<3<3 \n\n")
 
 browser.quit()
