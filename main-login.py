@@ -19,10 +19,7 @@ def clean_file_names(folderPath):
         i += 1
 
 def get_profile_name(profile):
-    numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
-    posts = str(numberOfPosts.text).split('\n')
-    p = posts[3].split(' ')
-    return int(p[0])
+    profileinfo = profile.find_element(By.CLASS_NAME, 'x1lliihq') # profile name
 
 def get_number_of_posts(profile):
     numberOfPosts = profile.find_element(By.CLASS_NAME, 'xdj266r') # find the number of posts
