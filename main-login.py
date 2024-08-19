@@ -72,7 +72,7 @@ try:
     posts = get_number_of_posts(browser)
     time.sleep(2)
 
-    for _ in range(round(posts / 25)):
+    for _ in range(max(round(posts / 25), 2)):
         
         div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
         img_elems = []
