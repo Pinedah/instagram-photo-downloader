@@ -9,7 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
-logging.disable(logging.DEBUG)
+logging.disable(logging.CRITICAL)
 
 def clean_file_names(folderPath):
     os.chdir(folderPath)
