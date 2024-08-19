@@ -30,6 +30,8 @@ def get_number_of_posts(profile):
     posts = infoByLines[3].split(' ')
     return int(posts[0])
 
+numberOfPhotos = 1
+
 def download_photos(imagesLinks, imageNames, user):
     
     os.makedirs(f'photos-{user}', exist_ok = True)
@@ -37,14 +39,18 @@ def download_photos(imagesLinks, imageNames, user):
     
     for i in range(len(imagesLinks)):
         response = requests.get(imagesLinks[i])
+        
         # Ensure the request was successful
         if response.status_code == 200:
             # Save the image to a file
-            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:100] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
-
+            nameDebugged = re.sub(pattern, "", str(imagesLinks[i])).replace("\n", "")[:130] + '---cut---'+ re.sub(pattern, "", str(imageNames[i])).replace("\n", "")[:100]
+            
             with open(f"photos-{user}\\{nameDebugged}.jpg", "wb") as file:
                 file.write(response.content)
-            print(f"Image downloaded successfully!")
+
+            global numberOfPhotos
+            print(f"Image {str(numberOfPhotos)} downloaded successfully!")
+            numberOfPhotos += 1
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
@@ -65,7 +71,7 @@ try:
     htmlElem = browser.find_element(By.TAG_NAME, 'html')
     time.sleep(4)
 
-    accountName = get_number_of_posts(browser)
+    accountName = get_profile_name(browser)
     posts = get_number_of_posts(browser)
     time.sleep(2)
 
@@ -95,6 +101,7 @@ except NoSuchElementException:
 
 clean_file_names(f'photos-' + accountName)
 
-browser.quit()
+print(f"\n\n{len(os.listdir('photos' + accountName))} photos downloaded...")
+print("Thanks for scrapping with us, come again soon!!<3<3 \n\n")
 
-print("\n\nThanks for scrapping with us, come again soon!!<3<3 \n\n")
+browser.quit()
