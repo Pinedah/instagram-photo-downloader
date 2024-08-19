@@ -16,7 +16,6 @@ Before running the scraper, ensure you have the following installed:
 - Requests library (pip install requests)
 - BeautifulSoup library (pip install beautifulsoup4)
 - Selenium library (pip install selenium)
-- Pprint (PrettyPrint) library (pip install pprintpp) (Optional, as pprint is included in the Python standard library. Install only if extended functionality is needed.)
 - Logging library (Already included in the Python standard library, no installation needed.)
 - OS library (Already included in the Python standard library, no installation needed.)
 - RE (Regular Expressions) library (Already included in the Python standard library, no installation needed.)
