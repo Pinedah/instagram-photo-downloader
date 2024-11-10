@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
-logging.disable(logging.CRITICAL)
+logging.disable(logging.DEBUG)
 
 
 
@@ -62,68 +62,68 @@ def main():
     browser = webdriver.Chrome()
     browser.get('https://www.instagram.com/')
     time.sleep(2)
-    
 
     input()
 
 
-
-    
-
     try:
         htmlElem = browser.find_element(By.TAG_NAME, 'html')
+        logging.critical("encuentra elemento html")
         time.sleep(4)
 
+
+        logging.critical("account name")
         accountName = get_profile_name(browser)
+        logging.critical("END account name")
         posts = get_number_of_posts(browser)
+        logging.critical("END number of posts")
         time.sleep(2)
 
 
-        """
-            Flag = True
+        logging.critical("intenta scrollable")
+
+        scrollable_div = browser.find_element(By.CSS_SELECTOR, "._9dls._ar44.js-focus-visible._aa4d")
+
+        logging.critical(scrollable_div)
+        logging.critical("END  scrollable")
+        
+        #usersList = []
+        Flag = True
         while Flag:
             # Look if we are in the final of the div
+            logging.critical("EXECUTE SCRITP")
             at_bottom = browser.execute_script(
                 "return arguments[0].scrollTop + arguments[0].clientHeight >= arguments[0].scrollHeight;", 
                 scrollable_div)
+            
+            at_bottom = browser.execute_script("""
+                return arguments[0].scrollTop + arguments[0].clientHeight >= arguments[0].scrollHeight;
+                """, scrollable_div)
+            
             if at_bottom:
                 logging.info("End page.")
                 Flag = False  
-            else:
-                usersElem = browser.find_elements(By.CLASS_NAME, "x1rg5ohu")
-                for i in range(len(usersElem)):
-                    if usersElem[i].text not in usersList:
-                        usersList.append(str(usersElem[i].text))
-                        logging.info(str(usersElem[i].text))
-
-                time.sleep(1)
-                browser.execute_script("arguments[0].scrollTop += 300;", scrollable_div)
-                time.sleep(2)
-        """
-
-
-        # change to JS script to end scrapping
-        for _ in range(max(round(posts / 25), 2)):
             
-            div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
-            img_elems = []
-            srcs = []
-            alts = []
+            else:
+                logging.critical("intenta div elem")
+                div_elem = browser.find_elements(By.CLASS_NAME, '_aagv')
+                img_elems = []
+                srcs = []
+                alts = []
 
-            for i in range(len(div_elem)):
-                img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
+                for i in range(len(div_elem)):
+                    img_elems.append(div_elem[i].find_element(By.TAG_NAME, 'img'))
 
-            for j in range(len(img_elems)):
-                srcs.append(img_elems[j].get_attribute('src'))
-                alts.append(img_elems[j].get_attribute('alt'))
+                for j in range(len(img_elems)):
+                    srcs.append(img_elems[j].get_attribute('src'))
+                    alts.append(img_elems[j].get_attribute('alt'))
 
-            download_photos(srcs, alts, accountName)
+                download_photos(srcs, alts, accountName)
 
-            for _ in range(3):
-                htmlElem.send_keys(Keys.END)
-                time.sleep(2)
+                for _ in range(3):
+                    htmlElem.send_keys(Keys.END)
+                    time.sleep(2)
 
-                
     except NoSuchElementException:
         print("Was not able to find an element with that class name.")
 
