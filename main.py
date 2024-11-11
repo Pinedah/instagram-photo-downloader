@@ -150,8 +150,6 @@ def view(browser):
 
     # Packing elements
 
-    
-
     # main view loop
     view.mainloop()
 
