@@ -12,8 +12,6 @@ from selenium.common.exceptions import NoSuchElementException
 logging.basicConfig(level = logging.DEBUG, format = '%(asctime)s -  %(levelname)s -   %(message)s')
 logging.disable(logging.DEBUG)
 
-
-
 def clean_file_names(folderPath):
     os.chdir(folderPath)
     i = 0
@@ -52,31 +50,15 @@ def download_photos(imagesLinks, imageNames, user):
         else:
             print(f"Failed to download image. Status code: {response.status_code}")
 
-
-def main():
-    print("\n--- Please checkout the README file before using the script :). ---\n")
-    print("Login into your account and then go to the profile you want to scrapp.")
-    print("When you are ready, press ENTER in the console to begin the downloads.\n\n")
-
-    # Initialize browser object
-    browser = webdriver.Chrome()
-    browser.get('https://www.instagram.com/')
-    time.sleep(2)
-
-    input()
-
-
+def scrap(browser):
     try:
         htmlElem = browser.find_element(By.TAG_NAME, 'html')
         logging.critical("encuentra elemento html")
         time.sleep(4)
 
 
-        logging.critical("account name")
         accountName = get_profile_name(browser)
-        logging.critical("END account name")
         posts = get_number_of_posts(browser)
-        logging.critical("END number of posts")
         time.sleep(2)
 
 
@@ -87,7 +69,6 @@ def main():
         logging.critical(scrollable_div)
         logging.critical("END  scrollable")
         
-        #usersList = []
         Flag = True
         while Flag:
             # Look if we are in the final of the div
@@ -123,15 +104,28 @@ def main():
                 for _ in range(3):
                     htmlElem.send_keys(Keys.END)
                     time.sleep(2)
+        clean_file_names(f'photos-' + accountName)
 
     except NoSuchElementException:
         print("Was not able to find an element with that class name.")
 
+def main():
+    print("\n--- Please checkout the README file before using the script :). ---\n")
+    print("Login into your account and then go to the profile you want to scrapp.")
+    print("When you are ready, press ENTER in the console to begin the downloads.\n\n")
 
-    clean_file_names(f'photos-' + accountName)
+    # Initialize browser object
+    browser = webdriver.Chrome()
+    browser.get('https://www.instagram.com/')
+    time.sleep(2)
+
+    input()
+    scrap(browser)
 
     print(f"\n\n{len(os.listdir(os.curdir))} photos downloaded...")
     print("Thanks for scrapping with us, come again soon!!<3<3 \n\n")
+
+
 
     browser.quit()
 
