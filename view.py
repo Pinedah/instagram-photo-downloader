@@ -3,41 +3,42 @@ from tkinter import scrolledtext
 import time
 
 
-def agregar_texto():
-    texto = "Nuevo dato agregado\n"  # Aquí puedes cambiar el texto que se agregará
-    etiqueta_con_scroll.insert(tk.END, texto)  # Agrega el texto al final
-    etiqueta_con_scroll.yview(tk.END)  # Desplaza hacia el final para ver el texto agregado
+def add_text():
+    text = "Downloaded...\n"  
+    txt_area.insert(tk.END, text)  
+    txt_area.yview(tk.END)  
 
-# Crear la ventana principal
-ventana = tk.Tk()
-ventana.title("INSTAGRAM PHOTO-SCRAPPER")
-ventana.geometry("500x300")  # Establece el tamaño de la ventana
-ventana.configure(bg="black")  # Establece el fondo de la ventana a negro
-ventana.resizable(False, False)
+# main view
+view = tk.Tk()
+view.title("INSTAGRAM PHOTO-SCRAPPER")
+view.geometry("500x300")  
+view.configure(bg="black")  
+view.resizable(False, False)
 
-# Configurar icono de la ventana
-icono = tk.PhotoImage(file="pank.png")  # Cambia la ruta a tu archivo .ico
-ventana.iconphoto(False, icono)
+# set view icon
+icono = tk.PhotoImage(file="pank.png")  
+view.iconphoto(False, icono)
 
-program_label = tk.Label(ventana, text="INSTAGRAM PHOTO-SCRAPPER", font=("Arial", 14), fg="white", bg="black")
-program_label.pack(padx=10, pady=10)
+# label for the title
+label_title = tk.Label(view, text="INSTAGRAM PHOTO-SCRAPPER", font=("Arial", 14), fg="white", bg="black")
+label_title.pack(padx=10, pady=10)
 
-# Boton para inciar el scrapping
-botonIniciar = tk.Button(ventana, text="Iniciar Scrap", command=agregar_texto, fg="white", bg="black", border=2)
-botonIniciar.pack(padx= 10, pady=10)
+# button to start scrapping
+btn_start_scrapping = tk.Button(view, text="Iniciar Scrap", command=add_text, fg="white", bg="black", border=2)
+btn_start_scrapping.pack(padx= 10, pady=10)
 
-# Crear el widget de texto con scroll
-etiqueta_con_scroll = scrolledtext.ScrolledText(
-    ventana, 
+# text area to display downloads
+txt_area = scrolledtext.ScrolledText(
+    view, 
     width=50, 
     height=15, 
     wrap=tk.WORD, 
     font=("Arial", 10), 
-    bg="#333333",      # Color de fondo de la etiqueta (gris oscuro)
-    fg="#FFFFFF"       # Color del texto (blanco)
+    bg="#333333",      
+    fg="#FFFFFF"       
 )
-etiqueta_con_scroll.pack(pady=20)
-etiqueta_con_scroll.configure(state="normal")  # Deshabilita la edición por el usuario
+txt_area.pack(pady=20)
+txt_area.configure(state="normal")  
 
-# Ejecutar el bucle principal de la ventana
-ventana.mainloop()
+# main view loop
+view.mainloop()
