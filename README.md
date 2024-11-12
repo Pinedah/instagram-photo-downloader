@@ -6,19 +6,13 @@ This project is a Python-based scraper that allows you to download all photos fr
 
 - **Download All Photos:** Automatically download all photos from a specified public Instagram profile.
 - **Easy Setup:** Simple installation and configuration process.
-- **Error Handling:** Built-in error handling to manage issues like rate limits or connectivity problems.
 
 ## Requirements
 
 Before running the scraper, ensure you have the following installed:
 
 - Python 3.x
-- Requests library (pip install requests)
-- BeautifulSoup library (pip install beautifulsoup4)
-- Selenium library (pip install selenium)
-- Logging library (Already included in the Python standard library, no installation needed.)
-- OS library (Already included in the Python standard library, no installation needed.)
-- RE (Regular Expressions) library (Already included in the Python standard library, no installation needed.)
+- Requested libraries (pip install -r requirements.txt)
 
 ## Installation
 
@@ -32,14 +26,16 @@ Before running the scraper, ensure you have the following installed:
    
 3. **Run the script you prefer:**
    ```bash
-   main.py or main-login.py
+   main.py
 
 ## Usage -> MAIN
 
 1. Main <br>
-With main.py, you will need to log in to your Instagram account. Once Instagram has loaded, log in manually, then press the button in the interface, and the downloads will begin. This script allows you to scrape photos from a private account that you follow.
+With main.py, you will need to log in to your Instagram account.<br>
+Once Instagram has loaded, log in manually, then press the button in the interface, and the downloads will begin. This script allows you to scrape photos from a private account that you follow.
 
 ## DISCLAIMER 
-Script built with the only purpose to practice web scraping in python. Be aware.
+Script built with the only purpose to practice web scraping in python. Be aware.<br>
+For any recommendation or suggested feature, feel free to open a pull request or DM me at my personal social media pinned in my profile readme.
 
 Peace.
